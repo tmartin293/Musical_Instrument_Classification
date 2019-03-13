@@ -7,28 +7,27 @@ To extend filesystem on MicroSD Card:
 
 Process:
 
-#Stage 1 – Preprocessing
-o	Musical Instrument Signal
-	Convert / Save to .wav
-	Digitalize the input signal
-	Signal amplitude normalization
-	Silence removal
+Stage 1 – Preprocessing
+1. Musical Instrument Signal
+  1. Convert / Save to .wav
+  2. Digitalize the input signal
+  3. Signal amplitude normalization
+  4. Silence removal
+
+Stage 2 – Feature Extraction
+1. Pre-Processing
+  1. MFCC
+  2. Using DFT and identifying the most predominant frequencies with the greatest percentage contribution to the total power of the signal
 
 
-#Stage 2 – Feature Extraction
-o	Pre-Processing
-	MFCC
-	Using DFT and identifying the most predominant frequencies with the greatest percentage contribution to the total power of the signal
+Stage 3 – Training
+1. Feature Extraction
+  1. Try various classification techniques
 
 
-#Stage 3 – Training
-o	Feature Extraction
-	Try various classification techniques
+Stage 4 – Testing
+1. Classification
 
 
-#Stage 4 – Testing
-o	Classification
-
-
-#Stage 5 – Predictions
-o	Testing
+Stage 5 – Predictions
+1. Testing
