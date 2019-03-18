@@ -1,3 +1,6 @@
+This will be used to output our results to the 1602A LCD screen using Adafruit's CharLCD Library.
+
+
 Tutorial on 1602A LCD for the Beaglebone Black found at the following site:  
 
 sudo -H pip3 install Adafruit_BBIO
