@@ -1,14 +1,18 @@
 
+import datetime
 import pyaudio
 import wave
 
+now = datetime.datetime.now()
 sample_rate = 44100
 audio_format = pyaudio.paInt16
 audio_channel = 1
 chunk = 4096
 record_time = 8
 device_index = 1
-file_name = 'test1.wav'
+file_name = file_name = "audio_test_" + str(now.month) + "-" + str(now.day) + \
+            "-" + str(now.year) + "__" + str(now.hour) + "-" + str(now.minute) + \
+            "-" + str(now.second) + "_.wav"
 
 audio = pyaudio.PyAudio()
 frames = []
