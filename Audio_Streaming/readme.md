@@ -9,12 +9,10 @@ Steps for installing pyaudio and other audio processing tools on Beaglebone Blac
 
 3. sudo apt‐get install mplayer alsa‐utils libav‐tools
 
-4. sudo apt-get install libasound-dev portaudio19-dev libportaudio2 libportaudiocpp0
+4. sudo apt-get install libasound-dev portaudio19-dev libportaudio2 libportaudiocpp0 libportaudio0
 
-5. sudo apt-get install libportaudio0 libportaudio2 libportaudiocpp0 portaudio19-dev
+5. sudo apt-get install ffmpeg libav-tools
 
-6. sudo apt-get install ffmpeg libav-tools
-
-7. pip3 install pyaudio
+6. pip3 install pyaudio
 
 
