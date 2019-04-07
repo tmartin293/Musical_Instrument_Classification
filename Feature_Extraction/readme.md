@@ -1,5 +1,3 @@
-I was successful in making a Python implementation of the Feature Extraction algorithm.
-https://colab.research.google.com/github/tmartin293/Musical_Instrument_Classification/blob/master/Feature_Extraction/Feature_Extraction.ipynb
-
+The previous example had some mistakes. I updated the source code with the fixes. 
 
 Next I will work on parsing the wav folder of music files.
