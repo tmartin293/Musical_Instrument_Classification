@@ -1,4 +1,6 @@
-The previous example had some mistakes. I updated the source code with the fixes. 
-https://colab.research.google.com/github/tmartin293/Musical_Instrument_Classification/blob/master/Feature_Extraction/Feature_Extraction.ipynb
+This will work with the folder of preprocessed .wav files.
 
-Next I will work on parsing the wav folder of music files.
+The normalization algorithm will remove sample values that are outside of the range of [-0.009 .. 0.009]
+Then it calculates the first 13 values of the MFCC of the normalized data.
+
+Check out the Example folder for an example of what the process looks like on a single file
