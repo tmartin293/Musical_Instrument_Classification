@@ -4,11 +4,9 @@ Here is my implementation of the referrence project's approach in Python
 import numpy as np
 import csv
 import os
-import matplotlib.pyplot as plt
 from scipy.io import wavfile
 from scipy.fftpack import dct, idct
 from numpy import empty_like
-import time
     
 def WriteToCSV(csv_filename, data):
     with open(csv_filename, mode='a') as data_file:
