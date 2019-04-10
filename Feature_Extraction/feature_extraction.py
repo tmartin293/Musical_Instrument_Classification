@@ -33,7 +33,7 @@ def RemoveSilence(data):
 
 # Transform data into 
 def MFCC(data):
-    # Frame the signal into short frames.
+    # Split the data into 50 segments (44,100 / 50 = 882)
     win_size = 882
     num_frames = int( np.floor(len(data)/ win_size) )
     # Compute the N-point symmetric Hamming window filter (win_size = 882)
