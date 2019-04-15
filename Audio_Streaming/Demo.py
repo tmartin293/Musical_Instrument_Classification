@@ -86,7 +86,24 @@ def get_mfcc(file_name):
 	result = inv_transform[0:13]
 	result = np.reshape(result,(1,-1))
 
-	return(result)	
+	return(result)
+
+
+def predict_instrument(model_prediction):
+
+	# Dictionary of possibe instrument predictions
+	switch = {
+		1: "Cello",
+		2: "Clarinet",
+		3: "Flute",
+		4: "Guitar",
+		5: "Saxophone",
+		6: "Trumpet",
+		7: "Violin",
+	}
+
+	# Return instrument or N/A if the input is not in the dictionary
+	return(switch.get(model_prediction,"N/A"))			
 
 
 def exit(audio):
@@ -139,11 +156,16 @@ def main():
 
 			file_name = save_audio(frames,audio,stream,sample_rate,audio_channel,audio_format)
 			print("Audio stream saved to file: ",file_name)
+			frames = []
 			counter = counter + 1
 
-			mfcc = get_mfcc(file_name)
-			print("MFCC results: ",mfcc)
-			print(model.predict(mfcc))
+			try:
+				mfcc = get_mfcc(file_name)
+				print("Classified instrument: ",predict_instrument(model.predict(mfcc)[0]))
+
+			except:
+				print("Classified instrument: N/A (Error)")
+				print(mfcc)
 
 	exit(audio)
 	print("Demo completed")
