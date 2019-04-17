@@ -13,11 +13,11 @@ import sys
 import time
 
 
-def button_setup(button):
+def button_setup(button,bounce):
 
 	# setup button for input
 	GPIO.setup(button,GPIO.IN)
-	GPIO.add_event_detect(button,GPIO.RISING)
+	GPIO.add_event_detect(button,GPIO.RISING,bouncetime=bounce)
 
 
 def mic_setup(audio):
@@ -115,17 +115,18 @@ def exit(audio):
 def main():
 
 	button = "P8_8"
+	debounce = 5
 	model_name = "pickle_model.pkl"
 	sample_rate = 44100
 	audio_format = pyaudio.paInt16
 	audio_channel = 1
-	chunk = 4096
+	chunk = 8192
 	frames = []
 	audio = pyaudio.PyAudio()
 	counter = 0
 
 	# Setup button and microphone
-	button_setup(button)
+	button_setup(button,debounce)
 	model = import_ml_model(model_name)
 	device_index = mic_setup(audio)
 
@@ -165,7 +166,6 @@ def main():
 
 			except:
 				print("Classified instrument: N/A (Error)")
-				print(mfcc)
 
 	exit(audio)
 	print("Demo completed")
