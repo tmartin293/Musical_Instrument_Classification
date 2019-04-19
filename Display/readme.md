@@ -7,6 +7,8 @@ sudo -H pip3 install Adafruit_BBIO
 
 sudo -H pip3 install Adafruit_CharLCD
 
+alias python=python3
+
 python lcd_test.py
 
 http://www.linoroid.com/2016/10/connecting-16x2-character-lcd-to-beaglebone-black/
