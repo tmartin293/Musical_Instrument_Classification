@@ -23,7 +23,7 @@ def load_csv(filename):
     return predictors, labels
     
 def SVM(train_data, train_labels, test_data, test_labels):
-    svm_clsf = svm.SVC(C=500.0, kernel='rbf', gamma=0.001, decision_function_shape='ovr')
+    svm_clsf = svm.SVC(C=50.0, kernel='rbf', gamma=0.001, decision_function_shape='ovr')
     svm_clsf.fit(train_data, train_labels)
     test_predictions = svm_clsf.predict(test_data)
     accuracy = accuracy_score(test_labels, test_predictions)
@@ -37,7 +37,7 @@ def SVM(train_data, train_labels, test_data, test_labels):
         pickle.dump(svm_clsf,file)
     return accuracy, precision, recall, f1
 
-sss = StratifiedShuffleSplit(n_splits=5, test_size=0.125)
+sss = StratifiedShuffleSplit(n_splits=5, test_size=0.25)
 metrics = []
 filename = 'mfcc_results.csv'
 X_data, Y_data = load_csv(filename)
