@@ -1,9 +1,9 @@
 """
 Example output: 
-  accuracy = 0.9814705882352941
-  precision = 0.9828141786871974
-  recall = 0.9814705882352941
-  fi = 0.9821418595420995
+  accuracy = 0.9747058823529411
+  precision = 0.975135967051839
+  recall = 0.9747058823529411
+  fi = 0.9749208610742253
 """
 
 from sklearn import svm
@@ -23,7 +23,7 @@ def load_csv(filename):
     return predictors, labels
     
 def SVM(train_data, train_labels, test_data, test_labels):
-    svm_clsf = svm.SVC(C=50.0, kernel='rbf', gamma=0.005, decision_function_shape='ovr')
+    svm_clsf = svm.SVC(C=500.0, kernel='rbf', gamma=0.001, decision_function_shape='ovr')
     svm_clsf.fit(train_data, train_labels)
     test_predictions = svm_clsf.predict(test_data)
     accuracy = accuracy_score(test_labels, test_predictions)
