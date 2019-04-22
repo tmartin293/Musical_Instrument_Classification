@@ -12,14 +12,13 @@ Stage 1 – Preprocessing
 
 Stage 2 – Feature Extraction
 1. Silence Removal
-2. Hamming Window Filter
-3. MFCC 
+2. MFCC 
 
 Stage 3 – Training
 1. C-Support Vector Classification
-   1. C = 50
+   1. C = 500
    2. kernel = 'rbf'
-   3. gamma = 0.005
+   3. gamma = 0.001
    4. decision_function_shape = 'ovr'
 
 Stage 4 – Testing
