@@ -10,11 +10,11 @@ def main():
     label = 0
     sample_rate = 44100
     n_fft = int(sample_rate/50)
-    hop = int(n_fft/2)
-    mfcc_size = 20
+    hop = int(sample_rate/100)
+    mfcc_size = 14
     top_db_limit = 35
     csv_filename = 'mfcc_results.csv'
-    all_data = np.empty([1,mfcc_size])
+    all_data = np.empty((0,mfcc_size))
     # For each file and sub directory in specified folder
     for root, dirs, files in os.walk("."):
         # parse all the wav files
@@ -31,9 +31,9 @@ def main():
                 mfcc = librosa.feature.mfcc(data,sr=sample_rate,n_fft=n_fft,\
                                             hop_length=hop,n_mfcc=mfcc_size)
                 # Average all MFCC values across entire audio file to get
-                # single vector
+                # an array of size (mfcc_size-1,1)
                 mfcc = np.mean(mfcc[1:,:],axis=1)
-                # Put the appropriate label in the last column
+                # Put the appropriate label in the last row
                 mfcc = np.append(mfcc, label)
                 mfcc = np.reshape(mfcc,[-1,mfcc_size])
 
@@ -41,6 +41,6 @@ def main():
         # End of files in folder; go to next label
         label += 1
     # Save data to .csv file    
-    np.savetxt(csv_filename,all_data[1:,:],fmt='%10.8f',delimiter=',')
+    np.savetxt(csv_filename,all_data,fmt='%10.8f',delimiter=',')
 
 main()

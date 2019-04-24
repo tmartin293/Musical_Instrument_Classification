@@ -13,15 +13,17 @@ from csv import reader
 import numpy as np
 import pickle
 
-def load_csv(filename):
+
+def load_csv(filename,num_mfccs):
     file = open(filename, "rt")
     lines = reader(file)
     dataset = list(lines)
     dataset = np.array(dataset).astype('float')
-    predictors = dataset[:,0:19]
-    labels = dataset[:,19].astype('int')
+    predictors = dataset[:,0:num_mfccs-1]
+    labels = dataset[:,num_mfccs-1].astype('int')
     return predictors, labels
     
+
 def SVM(train_data, train_labels, test_data, test_labels):
     svm_clsf = svm.SVC(C=50.0, kernel='rbf', gamma=0.001, decision_function_shape='ovr')
     svm_clsf.fit(train_data, train_labels)
@@ -37,28 +39,40 @@ def SVM(train_data, train_labels, test_data, test_labels):
         pickle.dump(svm_clsf,file)
     return accuracy, precision, recall, f1
 
-sss = StratifiedShuffleSplit(n_splits=5, test_size=0.25)
-metrics = []
-filename = 'mfcc_results.csv'
-X_data, Y_data = load_csv(filename)
-i = 0
-for train_indices, test_indices in sss.split(X_data, Y_data):
-    train_data, test_data = X_data[train_indices], X_data[test_indices]
-    train_labels, test_labels = Y_data[train_indices], Y_data[test_indices]
-    metrics.append(SVM(train_data, train_labels, test_data, test_labels))
-n_splits = 0.00
-accuracy = 0.00
-precision = 0.00
-recall = 0.00
-f1 = 0.00
-for i in metrics:
+
+def main():
+    sss = StratifiedShuffleSplit(n_splits=5, test_size=0.25)
+    metrics = []
+    mfcc_size = 14
+    filename = 'mfcc_results.csv'
+    X_data, Y_data = load_csv(filename,mfcc_size)
+    print("Size of predictors: ", X_data.shape)
+    print("Size of labels: ", Y_data.shape)
+    i = 0
+
+    for train_indices, test_indices in sss.split(X_data, Y_data):
+        train_data, test_data = X_data[train_indices], X_data[test_indices]
+        train_labels, test_labels = Y_data[train_indices], Y_data[test_indices]
+        metrics.append(SVM(train_data, train_labels, test_data, test_labels))
+    
+    n_splits = 0.00
+    accuracy = 0.00
+    precision = 0.00
+    recall = 0.00
+    f1 = 0.00
+
+    for i in metrics:
         accuracy += i[0]
         precision += i[1]
         recall += i[2]
         f1 += i[3]
         n_splits += 1
-accuracy = accuracy/n_splits
-precision = precision/n_splits
-recall = recall/n_splits
-f1 = f1/n_splits
-print( (accuracy),(","),(precision),(", "),(recall),(", "),(f1) )        
+
+    accuracy = accuracy/n_splits
+    precision = precision/n_splits
+    recall = recall/n_splits
+    f1 = f1/n_splits
+    print((accuracy),(","),(precision),(", "),(recall),(", "),(f1))
+
+    
+main()          
