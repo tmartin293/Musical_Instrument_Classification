@@ -1,4 +1,42 @@
 """
+Configuration
+"""
+# LCD Setup display - 'Loading...'
+    # Import Pickle Model
+    # Setup Compenents
+        # Button
+        # LED
+        # Mic
+
+"""
+Event Loop
+"""
+# Prompt user to 'Press Button' to record
+# On Event Dected
+    # Record Audio
+    # Change color to Green
+# Prompt user to 'Press Button' to stop recording recording
+# On Event Detected
+    # Stop Recording Audio
+    # Change color to Red
+# Normalization
+    # Trim
+    # Onset Detection
+# Predictions
+# Display results
+
+"""
+Teardown
+"""
+# GPIO Cleanup
+# Audio Stream Terminate
+
+
+
+
+
+
+"""
 Based on the tutorial from Adafruit: 
 https://github.com/adafruit/Adafruit_Python_CharLCD/blob/master/examples/char_lcd.py
 """
