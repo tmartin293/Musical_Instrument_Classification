@@ -1,8 +1,6 @@
 import Adafruit_CharLCD as LCD
 import Adafruit_BBIO.PWM as PWM
 import Adafruit_BBIO.GPIO as GPIO
-import Adafruit_BBIO.ADC as ADC
-import time
 
 """
 1602A LCD
@@ -40,15 +38,6 @@ def print_inst(num):
         lcd_print("Wrong Instrument\nDetected\n")
     else:
         lcd_print(results + instruments[num])
-def scroll_msg(message):
-    lcd.clear()
-    lcd.message(message)
-    for i in range(16-len(message)):
-        time.sleep(0.5)
-        lcd.move_right()
-    for i in range(16-len(message)):
-        time.sleep(0.5)
-    lcd.move_left()
 
 """
 SMD RGB LED
@@ -75,16 +64,6 @@ def LEDAllOff():
     for i in range(0,len(colors[1])):
         if(colors[1][i]):
             StopPWM(i)
-
-def TestLED():
-    StartPWM(0,100,base_freq)
-    time.sleep(0.05)
-    StartPWM(1,100,base_freq)
-    time.sleep(0.05)
-    StartPWM(2,100,base_freq)
-    time.sleep(0.05)
-    EndAll()
-
 
 def EndAll():
     LEDAllOff()
