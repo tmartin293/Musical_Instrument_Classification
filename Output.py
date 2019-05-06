@@ -5,67 +5,64 @@ import Adafruit_BBIO.GPIO as GPIO
 """
 1602A LCD
 """
-lcd = init_lcd()
-# Max possible strings
-max_disp    =   "1234567890123456\n1234567890123456"
-# Audio Streaming strings
-mic_err     =   "Failed to\nConnect to Mic\n"
-record_err  =   "Failed to\nSave Audio\n"
-len_err     =   "Recording Length\nExceeded\n"
-# Preprocessing strings
-mfcc_err    =   "Failed to\nPreprocess Audio\n"
-# ML
-predict_err =   "Failed to Guess\nInstrument\n"
-# Correct Output
-results     =   "Instrument =\n"
-instruments = [ "Cello\n", "Clarinet\n", "Flute\n",
-                "Guitar\n", "Saxophone\n", "Trumpet\n",
-                "Violin\n"]
+class BBB_LCD:
+        def __init__(self):
+                self.lcd = LCD.Adafruit_CharLCD('P8_8', 'P8_10', 'P8_18', 'P8_16', 'P8_14', 'P8_12',  16, 2, 'P8_7')
+                # Max possible strings
+                self.max_disp    =   "1234567890123456\n1234567890123456"
+                # Audio Streaming strings
+                self.mic_err     =   "Failed to\nConnect to Mic\n"
+                self.record_err  =   "Failed to\nSave Audio\n"
+                self.len_err     =   "Recording Length\nExceeded\n"
+                # Preprocessing strings
+                self.mfcc_err    =   "Failed to\nPreprocess Audio\n"
+                # ML
+                self.predict_err =   "Failed to Guess\nInstrument\n"
+                # Correct Output
+                self.results     =   "Instrument =\n"
+                self.instruments = [ "Cello\n", "Clarinet\n", "Flute\n",
+                        "Guitar\n", "Saxophone\n", "Trumpet\n",
+                        "Violin\n"]
 
-def init_lcd(lcd_rs = 'P8_8', lcd_en = 'P8_10', lcd_d4= 'P8_18', 
-            lcd_d5 = 'P8_16', lcd_d6 = 'P8_14', lcd_d7 = 'P8_12',
-            lcd_columns = 16, lcd_rows = 2, lcd_backlight = 'P8_7'):
-    return LCD.Adafruit_CharLCD(lcd_rs, lcd_en, lcd_d4, lcd_d5, lcd_d6, lcd_d7,
-                                lcd_columns, lcd_rows, lcd_backlight)
-def lcd_print(msg):
-    lcd.message(msg)
+        def print(self,msg):
+                self.lcd.message(msg)
 
-def lcd_clear():
-    lcd.clear()
+        def clear(self):
+                self.lcd.clear()
 
-def print_inst(num):
-    if(num < len(instruments) and num > len(instruments)):
-        lcd_print("Wrong Instrument\nDetected\n")
-    else:
-        lcd_print(results + instruments[num])
+        def print_inst(self,num):
+                if(num < len(self.instruments) and num > len(self.instruments)):
+                        self.print("Wrong Instrument\nDetected\n")
+                else:
+                        self.print(self.results + self.instruments[num])
+        def Cleanup(self):
+                self.clear
+                GPIO.cleanup()
 
 """
 SMD RGB LED
 """
-colors = init_led()
-base_freq = 10000
+class LED:
+        def __init__(self):
+                self.colors = [["P8_9", "P8_7", "P8_11"],[False, False, False]]
+        
+        def SetPWM(self,index,new_dc,new_freq):
+                PWM.set_duty_cycle(self.colors[0][index],new_dc)
+                PWM.set_frequency(self.colors[0][index],new_freq)
 
-def init_led(led_red = "P8_9", led_green = "P8_11", led_blue = "P8_15"):
-    return [[led_red, led_green, led_blue],[False, False, False]]
-    
-def SetPWM(index,new_dc,new_freq):
-    PWM.set_duty_cycle(colors[0][index],new_dc)
-    PWM.set_frequency(colors[0][index],new_freq)
+        def StartPWM(self,index,new_dc,new_freq):
+                PWM.start(self.colors[0][index],new_dc,new_freq,0)
+                self.colors[1][index] = True
+        
+        def StopPWM(self,index):
+                PWM.stop(self.colors[0][index])
+                self.colors[1][index] = False
 
-def StartPWM(index,new_dc,new_freq):
-    PWM.start(colors[0][index],new_dc,new_freq,0)
-    colors[1][index] = True
-    
-def StopPWM(index):
-    PWM.stop(colors[0][index])
-    colors[1][index] = False
-
-def LEDAllOff():
-    for i in range(0,len(colors[1])):
-        if(colors[1][i]):
-            StopPWM(i)
-
-def EndAll():
-    LEDAllOff()
-    PWM.cleanup()
-    GPIO.cleanup()
+        def LEDAllOff(self):
+                for i in range(0,len(self.colors[1])):
+                        if(self.colors[1][i]):
+                                self.StopPWM(i)
+        def Cleanup(self):
+                self.LEDAllOff()
+                PWM.cleanup()
+                GPIO.cleanup()                
