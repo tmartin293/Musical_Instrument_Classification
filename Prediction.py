@@ -6,7 +6,7 @@ import numpy as np
 
 class Predict:
     def __init__(self):
-        self.model = None
+        self.model = self.import_ml_model(self)
 
     def import_ml_model(self, model_name = "pickle_model.pkl"):
         with open(model_name, 'rb') as file:
@@ -31,7 +31,7 @@ class Predict:
         return(switch.get(prediction,"N/A"))
 
 
-    def get_predictions(self, filename,model,sample_rate = 44100,top_db_limit = 35,\
+    def get_predictions(self,filename,model,sample_rate = 44100,top_db_limit = 35,\
                         hop = int(44100/100),n_fft = int(44100/50),mfcc_size = 14):
         
         data,sample_rate = librosa.load(filename,sr=sample_rate)
