@@ -42,30 +42,41 @@ class Predict:
         predictions = []
 
         # Predict instrument for each detected note
-        for i in range(0,len(notes)-1):
-            note_data = data[notes[i]:notes[i+1]]
-            mfcc = librosa.feature.mfcc(note_data,sr=sample_rate, n_fft=n_fft,hop_length=hop, n_mfcc=mfcc_size)
+		for i in range(0,len(notes)):
+		
+    		if(i < len(notes)-1):
+        		note_data = data[notes[i]:notes[i+1]]
+    		else:
+        		note_data = data[notes[i]:-1]
 
-            mfcc = np.mean(mfcc[1:,:],axis=1)
-            mfcc = np.reshape(mfcc,(1,-1))
-            result = model.predict(mfcc)[0]
-            predictions.append(result)
+    		mfcc = librosa.feature.mfcc(note_data,sr=sample_rate,\
+                                        n_fft=n_fft,hop_length=hop,\
+                                        n_mfcc=mfcc_size)
 
-        # Determine prediction accuracy for each instruement detected
-        unique,counts = np.unique(predictions,return_counts=True)
-        result_strs = []
-        
-        for i in range(0,len(unique)):
-            accuracy = (counts[i] / len(predictions)) * 100
-            prediction_str = self.instrument_prediction(unique[i]) + \
-                            "\n{:3.3f}".format(accuracy) + "%\n"
-            """
-            print(instrument_prediction(unique[i]),"\n"\
-                "{:3.3f}".format(accuracy),"%\n")
-            """
-            result_strs.append(prediction_str)
+    		mfcc = np.mean(mfcc[1:,:],axis=1)
+    		mfcc = np.reshape(mfcc,(1,-1))
+    		result = model.predict(mfcc)[0]
+    		predictions.append(result)
 
-        return(result_strs)
+    	# Determine prediction accuracy for each instruement detected
+    	result_strs = []
+    	unique,counts = np.unique(predictions,return_counts=True)
+    	index = np.argsort(counts)
+    	index = np.flip(index)
+    	unique = unique[index]
+    	counts = counts[index]
+       
+    	for i in range(0,len(unique)):
+        	accuracy = (counts[i] / len(predictions)) * 100
+        	prediction_str = instrument_prediction(unique[i]) + \
+                             "\n{:3.3f}".format(accuracy) + "%\n"
+        	"""
+        	print(instrument_prediction(unique[i]),"\n"\
+              "{:3.3f}".format(accuracy),"%\n")
+        	"""
+        	result_strs.append(prediction_str)
+
+    	return(result_strs)
 
 
 
