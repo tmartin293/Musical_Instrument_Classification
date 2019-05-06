@@ -23,6 +23,10 @@ class Button:
         """
         return(GPIO.event_detected(self.button))
 
+    def cleanup(self):
+        GPIO.cleanup()
+
+
 class Mic:
     def __init__(self):
         self.mic_str = "AmazonBasics Portable USB Mic"
@@ -37,14 +41,15 @@ class Mic:
 
 
     def start_stream(self,audio,device_index,sample_rate = 44100,audio_format = pyaudio.paInt16,\
-                    audio_channel = 1,chunk = 8192):
+                     audio_channel = 1,chunk = 8192):
+
         return(audio.open(format = audio_format,rate = sample_rate, \
-                        channels = audio_channel,input_device_index = device_index, \
-                        input = True,frames_per_buffer = chunk))
+                          channels = audio_channel,input_device_index = device_index, \
+                          input = True,frames_per_buffer = chunk))
 
 
     def save_audio(self,frames,audio,stream,audio_channel = 1,sample_rate = 44100,\
-                audio_format = pyaudio.paInt16):
+                   audio_format = pyaudio.paInt16):
         stream.stop_stream()
         stream.close()
         now = datetime.datetime.now()
@@ -59,6 +64,5 @@ class Mic:
         wavefile.close()
         return(file_name)
 
-    def exit_input(self,audio):
-        GPIO.cleanup()
+    def cleanup(self,audio):
         audio.terminate()
