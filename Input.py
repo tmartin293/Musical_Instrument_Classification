@@ -21,7 +21,7 @@ class Button:
         enable edge detection using add_event_detect() first. Pin should be 
         type IN.". Since the function call returns a Boolean, no need for if-else
         """
-        return GPIO.event_detected(self.button)
+        return(GPIO.event_detected(self.button))
 
 class Mic:
     def __init__(self):
@@ -32,7 +32,8 @@ class Mic:
         for i in range(audio.get_device_count()):
             test_str = audio.get_device_info_by_index(i).get('name')
             if(test_str.startswith(self.mic_str)):
-                return i
+                return(i)
+        return(-1)
 
 
     def start_stream(self,audio,device_index,sample_rate = 44100,audio_format = pyaudio.paInt16,\

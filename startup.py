@@ -10,10 +10,12 @@ lcd = Output.BBB_LCD()
 button = Input.Button()
 led = Output.LED()
 mic = Input.Mic()
+prediction = Prediction.Predict()
 
 # Display Setup
 # stretch goal: add a cool graphic loading message
 lcd.print("Loading...")
+prediction.import_ml_model()
 # Import Pickle Model
 
 

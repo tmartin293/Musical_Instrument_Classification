@@ -6,12 +6,11 @@ import numpy as np
 
 class Predict:
     def __init__(self):
-        self.model = self.import_ml_model(self)
+        self.model = None
 
     def import_ml_model(self, model_name = "pickle_model.pkl"):
         with open(model_name, 'rb') as file:
-            model = pickle.load(file)
-        return(model)
+            self.model = pickle.load(file)
 
 
     def instrument_prediction(self, prediction):
