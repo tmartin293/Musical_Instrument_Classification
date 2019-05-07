@@ -9,13 +9,13 @@ Configuration
 lcd = Output.BBB_LCD()
 button = Input.Button()
 led = Output.LED()
-mic = Input.Mic()
-predict = Prediction.Predict()
+mic = Input.Mic(lcd)
+predict = Prediction.Predict(lcd)
 
 # Display Setup
 # stretch goal: add a cool graphic loading message
 lcd.print("Loading...")
-# Import Pickle Model
+
 predict.import_ml_model()
 
 """
@@ -25,11 +25,11 @@ Event Loop
 lcd.print("Press Button To\nStart Recording\n")
 while True:
     # On Event Dected
-    if(button.button_pressed()):
+    if button.is_pressed():
         # Record Audio
         mic.start_stream()
         # Change color to Green
-        led.green()
+        led.SetGreen()
 
 # Prompt user to 'Press Button' to stop recording recording
 lcd.print("Press Button To\nStart Recording\n")

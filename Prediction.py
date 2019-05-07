@@ -3,9 +3,12 @@ import scipy
 import pickle
 import librosa
 import numpy as np
+import Output
 
 class Predict:
-    def __init__(self):
+    def __init__(self, lcd):
+        # Import Pickle Model
+        lcd.print("Loading...")
         self.model = open("pickle_model.pkl", 'rb')
 
     # Dictionary of possibe instrument predictions

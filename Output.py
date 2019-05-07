@@ -31,7 +31,7 @@ class BBB_LCD:
                 self.lcd.clear()
 
         def Cleanup(self):
-                self.clear
+                self.clear()
                 GPIO.cleanup()
 
 """

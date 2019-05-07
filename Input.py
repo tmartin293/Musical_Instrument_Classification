@@ -17,7 +17,7 @@ class Button:
         GPIO.setup(self.button,GPIO.IN)
         GPIO.add_event_detect(self.button,GPIO.RISING,bouncetime=self.bounce)
 
-    def button_pressed(self):
+    def is_pressed(self):
         """ From the Adafruit_BBIO Library,
         "Returns True if an edge has occured on a given GPIO. You need to 
         enable edge detection using add_event_detect() first. Pin should be 
