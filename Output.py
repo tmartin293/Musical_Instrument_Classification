@@ -30,11 +30,6 @@ class BBB_LCD:
         def clear(self):
                 self.lcd.clear()
 
-        def print_inst(self,num):
-                if(num < len(self.instruments) and num > len(self.instruments)):
-                        self.print("Wrong Instrument\nDetected\n")
-                else:
-                        self.print(self.results + self.instruments[num])
         def Cleanup(self):
                 self.clear
                 GPIO.cleanup()
@@ -76,7 +71,7 @@ class LED:
                 if led >= 0 and led <= 2:
                         if self.colors[1][led]:
                                 self.StopPWM(led)
-                        else
+                        else:
                                 self.StartPWM(led, 100, self.base_freq)
 
         def ClearLEDs(self):
