@@ -14,8 +14,8 @@ class Button:
 
     def button_setup(self):
         # setup button for input
-        GPIO.setup(self.button,GPIO.IN)
-        GPIO.add_event_detect(self.button,GPIO.RISING,bouncetime=self.bounce)
+        GPIO.setup(self.button, GPIO.IN)
+        GPIO.add_event_detect(self.button, GPIO.RISING, bouncetime=self.bounce)
 
     def is_pressed(self):
         """ From the Adafruit_BBIO Library,
@@ -34,7 +34,7 @@ class Mic:
         self.mic_str = "AmazonBasics Portable USB Mic"
         self.audio = pyaudio.PyAudio()
         self.device_index = self.mic_setup()
-        if(self.device_index == -1):
+        if self.device_index == -1:
             lcd.print("Unable to connect to microphone.")
             self.audio.terminate()
         self.sample_rate = 44100
@@ -43,6 +43,7 @@ class Mic:
         self.chunk = 8192
         self.frames = []
         self.stream = None
+        self.filenames = []
         self.counter = 0
 
     def mic_setup(self):
@@ -58,8 +59,9 @@ class Mic:
                           channels = self.audio_channel,input_device_index = self.device_index, \
                           input = True, frames_per_buffer = self.chunk)
 
-    # Do we really need to return the filename? I think a new system should be implemented which
-    # deals with audio files in some way
+    def read_data(self):
+        self.frames.append(self.stream.read(self.chunk))
+
     def save_audio(self, audio_format = pyaudio.paInt16):
         self.stream.stop_stream()
         self.stream.close()
@@ -70,7 +72,8 @@ class Mic:
         wavefile.setframerate(self.sample_rate)
         wavefile.writeframes(b''.join(self.frames))
         wavefile.close()
-        return file_name 
+        self.filenames.append(file_name) 
+        self.counter += 1
 
     def cleanup(self):
         self.audio.terminate()

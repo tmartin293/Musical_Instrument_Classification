@@ -5,7 +5,7 @@ import Adafruit_BBIO.GPIO as GPIO
 """
 1602A LCD
 """
-class BBB_LCD:
+class CharLCD:
         def __init__(self):
                 self.lcd = LCD.Adafruit_CharLCD('P8_8', 'P8_10', 'P8_18', 'P8_16', 'P8_14', 'P8_12',  16, 2, 'P8_7')
                 # Max possible strings
@@ -25,6 +25,7 @@ class BBB_LCD:
                         "Violin\n"]
 
         def print(self,msg):
+                self.clear()
                 self.lcd.message(msg)
 
         def clear(self):
@@ -45,15 +46,15 @@ class LED:
 
         def SetRed(self):
                 self.ClearLEDs()
-                ToggleLED(0)
+                self.ToggleLED(0)
         
         def SetGreen(self):
                 self.ClearLEDs()
-                ToggleLED(1)
+                self.ToggleLED(1)
 
         def SetBlue(self):
                 self.ClearLEDs()
-                ToggleLED(2)
+                self.ToggleLED(2)
         
         def SetPWM(self,index,new_dc,new_freq):
                 PWM.set_duty_cycle(self.colors[0][index],new_dc)
