@@ -44,7 +44,21 @@ SMD RGB LED
 """
 class LED:
         def __init__(self):
+                # [Red, Green, Blue]
                 self.colors = [["P8_9", "P8_7", "P8_11"],[False, False, False]]
+                self.base_freq = 10000
+
+        def SetRed(self):
+                self.ClearLEDs()
+                ToggleLED(0)
+        
+        def SetGreen(self):
+                self.ClearLEDs()
+                ToggleLED(1)
+
+        def SetBlue(self):
+                self.ClearLEDs()
+                ToggleLED(2)
         
         def SetPWM(self,index,new_dc,new_freq):
                 PWM.set_duty_cycle(self.colors[0][index],new_dc)
@@ -58,11 +72,19 @@ class LED:
                 PWM.stop(self.colors[0][index])
                 self.colors[1][index] = False
 
-        def LEDAllOff(self):
+        def ToggleLED(self,led):
+                if led >= 0 and led <= 2:
+                        if self.colors[1][led]:
+                                self.StopPWM(led)
+                        else
+                                self.StartPWM(led, 100, self.base_freq)
+
+        def ClearLEDs(self):
                 for i in range(0,len(self.colors[1])):
-                        if(self.colors[1][i]):
+                        if self.colors[1][i]:
                                 self.StopPWM(i)
+
         def Cleanup(self):
-                self.LEDAllOff()
+                self.ClearLEDs()
                 PWM.cleanup()
                 GPIO.cleanup()                

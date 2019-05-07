@@ -9,6 +9,7 @@ class Button:
     def __init__(self):
         self.button = 'P8_17'
         self.bounce = 5
+        self.button_setup()
 
     def button_setup(self):
         # setup button for input
