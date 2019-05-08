@@ -1,3 +1,4 @@
+
 import Input
 import Output
 import Prediction
@@ -21,30 +22,34 @@ Event Loop
 # Prompt user to 'Press Button' to record
 lcd.print("Press Button To\nStart Recording\n")
 while True:
-    # On Event Dected
+    # On Event Detection
     if button.is_pressed():
-        break
+    	break
 
 # Record Audio
 mic.start_stream()
 led.SetGreen()
 lcd.print("Press Button To\nStop Recording\n")
+
 while not button.is_pressed():
     mic.read_data()
 led.SetRed()
 mic.save_audio()
 
-# Normalization
-    # Trim
-    # Onset Detection
-# Predictions
-# Display results
+
+# Classify instrument(s) and display results
+instruments = predict.get_predictions(mic.filenames[mic.counter-1])
+num_instruments = str(len(instruments))
+lcd.print("# of possible\ninstruments:" + num_instruments)
+time.sleep(1)
+for i in range(0,len(instruments)):
+	lcd.print(instruments[i])
+	time.sleep(1)
 
 """
 Teardown
 """
 lcd.Cleanup()
-button
+button.cleanup()
 led.Cleanup()
-mic.exit_input()
-predict
+mic.cleanup()
