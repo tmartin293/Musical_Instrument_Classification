@@ -2,15 +2,14 @@
 import scipy
 import pickle
 import librosa
-import Output
 import numpy as np
 
 
 class Predict:
-    def __init__(self, lcd):
+    def __init__(self):
         # Import Pickle Model
-        lcd.print("Loading...")
-        self.model = open("pickle_model.pkl", 'rb')
+        with open("pickle_model.pkl", 'rb') as file:
+            self.model = pickle.load(file)
 
     # Dictionary of possibe instrument predictions
     def instrument_prediction(self, prediction):
@@ -52,17 +51,13 @@ class Predict:
         result_strs = []
         unique,counts = np.unique(predictions,return_counts=True)
         indices = np.argsort(counts)
-        indices = np.flip(indices)
+        indices = np.flip(indices,0)
         unique = unique[indices]
         counts = counts[indices]
        
         for i in range(0,len(unique)):
             accuracy = (counts[i] / len(predictions)) * 100
             prediction_str = self.instrument_prediction(unique[i]) + "\n{:3.3f}".format(accuracy) + "%\n"
-            """
-            print(instrument_prediction(unique[i]),"\n"\
-                "{:3.3f}".format(accuracy),"%\n")
-            """
             result_strs.append(prediction_str)
         return(result_strs)
 

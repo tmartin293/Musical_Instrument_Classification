@@ -65,7 +65,7 @@ class Mic:
     def save_audio(self, audio_format = pyaudio.paInt16):
         self.stream.stop_stream()
         self.stream.close()
-        file_name = "audio_test_" + datetime.datetime.now().strftime("%m-%d-%Y %H:%M:%S") + "_.wav"
+        file_name = "audio_test_" + datetime.datetime.now().strftime("%m-%d-%Y_%H:%M:%S") + "_.wav"
         wavefile = wave.open(file_name,'wb')
         wavefile.setnchannels(self.audio_channel)
         wavefile.setsampwidth(self.audio.get_sample_size(audio_format))
