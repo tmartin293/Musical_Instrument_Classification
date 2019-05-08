@@ -21,7 +21,7 @@ class Button:
         """ From the Adafruit_BBIO Library,
         "Returns True if an edge has occured on a given GPIO. You need to 
         enable edge detection using add_event_detect() first. Pin should be 
-        type IN.". Since the function call returns a Boolean, no need for if-else
+        type IN."
         """
         return GPIO.event_detected(self.button)
 
@@ -35,7 +35,7 @@ class Mic:
         self.audio = pyaudio.PyAudio()
         self.device_index = self.mic_setup()
         if self.device_index == -1:
-            lcd.print("Unable to connect to microphone.")
+            lcd.print(lcd.mic_err)
             self.audio.terminate()
         self.sample_rate = 44100
         self.audio_format = pyaudio.paInt16
@@ -54,13 +54,13 @@ class Mic:
         return -1
 
     # Instead of returning the stream, initialize the object's variable to the stream
-    def start_stream(self,audio_format = pyaudio.paInt16):
+    def start_stream(self):
         self.stream = self.audio.open(format = self.audio_format,rate = self.sample_rate, \
                           channels = self.audio_channel,input_device_index = self.device_index, \
                           input = True, frames_per_buffer = self.chunk)
 
     def read_data(self):
-        self.frames.append(self.stream.read(self.chunk))
+        self.frames.append(self.stream.read(self.chunk,exception_on_overflow=False))
 
     def save_audio(self, audio_format = pyaudio.paInt16):
         self.stream.stop_stream()
@@ -74,6 +74,7 @@ class Mic:
         wavefile.close()
         self.filenames.append(file_name) 
         self.counter += 1
+        self.frames = []
 
     def cleanup(self):
         self.audio.terminate()
