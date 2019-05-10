@@ -13,7 +13,7 @@ lcd.print("Loading...")
 button = Input.Button()
 led = Output.LED()
 mic = Input.Mic(lcd)
-predict = Prediction.Predict(lcd)
+predict = Prediction.Predict()
 
 # Display Setup
 # stretch goal: add a cool graphic loading message
