@@ -42,6 +42,8 @@ class LED:
         def __init__(self):
                 # [Red, Green, Blue]
                 self.colors = [["P8_9", "P8_7", "P8_11"],[False, False, False]]
+                for i in range(0, len(self.colors[0])):
+                        GPIO.setup(self.colors[0][i], GPIO.OUT)
                 self.base_freq = 10000
 
         def SetRed(self):
@@ -55,30 +57,18 @@ class LED:
         def SetBlue(self):
                 self.ClearLEDs()
                 self.ToggleLED(2)
-        
-        def SetPWM(self,index,new_dc,new_freq):
-                PWM.set_duty_cycle(self.colors[0][index],new_dc)
-                PWM.set_frequency(self.colors[0][index],new_freq)
-
-        def StartPWM(self,index,new_dc,new_freq):
-                PWM.start(self.colors[0][index],new_dc,new_freq,0)
-                self.colors[1][index] = True
-        
-        def StopPWM(self,index):
-                PWM.stop(self.colors[0][index])
-                self.colors[1][index] = False
 
         def ToggleLED(self,led):
                 if led >= 0 and led <= 2:
                         if self.colors[1][led]:
-                                self.StopPWM(led)
+                                GPIO.output(self.colors[0][led], GPIO.HIGH)
                         else:
-                                self.StartPWM(led, 100, self.base_freq)
+                                GPIO.output(self.colors[0][led], GPIO.LOW)
 
         def ClearLEDs(self):
                 for i in range(0,len(self.colors[1])):
                         if self.colors[1][i]:
-                                self.StopPWM(i)
+                                GPIO.output(self.colors[0][i], GPIO.LOW)
 
         def Cleanup(self):
                 self.ClearLEDs()
