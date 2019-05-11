@@ -2,7 +2,6 @@
 import scipy
 import pickle
 import librosa
-import time
 import numpy as np
 
 
@@ -37,7 +36,7 @@ class Predict:
         data,sample_rate = librosa.load(filename,sr=self.sample_rate)
         if data.size == 0:
             self.lcd.print("Data Error\nTry Again")
-            time.sleep(1)
+            time.sl
             return ["Error 100%"]
             
         # Trim with a threshold of 35

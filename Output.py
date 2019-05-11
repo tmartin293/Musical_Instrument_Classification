@@ -7,25 +7,19 @@ import Adafruit_BBIO.GPIO as GPIO
 class CharLCD:
         def __init__(self):
                 self.lcd = LCD.Adafruit_CharLCD('P8_8', 'P8_10', 'P8_18', 'P8_16', 'P8_14', 'P8_12',  16, 2, 'P8_26')
-                # Max possible strings
-                self.max_disp    =   "1234567890123456\n1234567890123456"
-                # Audio Streaming strings
-                self.mic_err     =   "Failed to\nConnect to Mic\n"
-                self.record_err  =   "Failed to\nSave Audio\n"
-                self.len_err     =   "Recording Length\nExceeded\n"
 
         def print(self,msg):
                 self.clear()
                 self.lcd.message(msg)
 
-        def MicError(self):
-                self.print(self.mic_err)
+        def mic_error(self):
+                self.print("Failed to\nConnect to Mic\n")
 
-        def RecError(self):
-                self.print(self.record_err)
+        def rec_error(self):
+                self.print("Failed to\nSave Audio\n")
                 
-        def LenError(self):
-                self.print(self.len_err)
+        def len_error(self):
+                self.print("Recording Length\nExceeded\n")
 
         def clear(self):
                 self.lcd.clear()

@@ -28,20 +28,15 @@ done = False
 while not done:
     # Prompt user to 'Press Button' to record
     lcd.print("Press Button To\nStart Recording\n")
-    # Block until button is pressed
-    button.get_input()
     
+    button.get_input()
     # Record Audio
     mic.start_stream()
-    mic.read_data()
     led.SetGreen()
-    
     lcd.print("Press Button To\nStop Recording\n")
     
-    # Read audio data until button is pressed
     while not button.is_pressed():
         mic.read_data()
-        
     led.SetRed()
     mic.save_audio()
     lcd.print("Predicting...\n")

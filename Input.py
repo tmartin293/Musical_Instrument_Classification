@@ -9,7 +9,7 @@ import time
 class Button:
     def __init__(self):
         self.button = 'P8_17'
-        self.bounce = 5
+        self.bounce = 200
         self.button_setup()
 
     def button_setup(self):
@@ -23,11 +23,7 @@ class Button:
         enable edge detection using add_event_detect() first. Pin should be 
         type IN."
         """
-        # Software debounce
-        if GPIO.event_detected(self.button):
-            time.sleep(0.005)
-            if GPIO.event_detected(self.button):
-                return True
+        i
         return False
     
     def get_input(self):
@@ -58,7 +54,7 @@ class Mic:
             return 1
         for i in range(self.audio.get_device_count()):
             test_str = self.audio.get_device_info_by_index(i).get('name')
-            if test_str.startswith("AmazonBasics Portable USB Mic"):
+            if test_str.startswith(self.mic_str):
                 return i
         lcd.mic_err()
         return -1
