@@ -35,13 +35,13 @@ class Predict:
     def get_predictions(self,filename):
         # Load audio
         data,sample_rate = librosa.load(filename,sr=self.sample_rate)
-        if data.size == 0:
+        if len(data) <= self.n_fft:
             self.lcd.print("Data Error\nTry Again")
             time.sleep(0.5)
             return ["Error 100%"]
             
         # Trim with a threshold of 35
-        data,index = librosa.effects.trim(data,top_db=self.top_db_limit)
+        data,index = librosa.effects.trim(data,top_db=self.top_db_limit,frame_length=self.n_fft,hop_length=self.hop)
         # Locate note onset events in each frame
         onset_frames = librosa.onset.onset_detect(y=data,sr=sample_rate,hop_length=self.hop)
         # Calculate the number of notes

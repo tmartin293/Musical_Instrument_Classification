@@ -52,24 +52,11 @@ while not done:
     
     done = True
 	    
-"""
-try:
-    instruments = predict.get_predictions(mic.filenames[mic.counter-1])
-    lcd.print("# of possible\ninstruments:" + str(len(instruments)))
-    time.sleep(5)
-    for i in range(0,len(instruments)):
-	    lcd.print(instruments[i])
-	    time.sleep(5)
-	    
-except:
-    lcd.print("Error unable\nto predict.\n")
-    time.sleep(5)
-"""
 
 """
 Teardown
 """
 lcd.Cleanup()
 button.cleanup()
-#led.Cleanup()
+led.Cleanup()
 mic.cleanup()

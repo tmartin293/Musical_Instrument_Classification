@@ -9,7 +9,7 @@ import time
 class Button:
     def __init__(self):
         self.button = 'P8_17'
-        self.bounce = 5
+        self.bounce = 10
         self.button_setup()
 
     def button_setup(self):
@@ -39,6 +39,7 @@ class Button:
 class Mic:
     def __init__(self, lcd):
         self.audio = pyaudio.PyAudio()
+        self.mic_name = "AmazonBasics Portable USB Mic"
         self.device_index = self.mic_setup(lcd)
         if self.device_index == -1:
             lcd.print(lcd.mic_err)
@@ -53,11 +54,11 @@ class Mic:
         self.counter = 0
 
     def mic_setup(self, lcd):
-        if self.audio.get_device_info_by_index(1).get('name').startswith("AmazonBasics Portable USB Mic"):
+        if self.audio.get_device_info_by_index(1).get('name').startswith(self.mic_name):
             return 1
         for i in range(self.audio.get_device_count()):
             test_str = self.audio.get_device_info_by_index(i).get('name')
-            if test_str.startswith("AmazonBasics Portable USB Mic"):
+            if test_str.startswith(self.mic_name):
                 return i
         lcd.mic_err()
         return -1
