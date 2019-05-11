@@ -2,11 +2,13 @@
 import scipy
 import pickle
 import librosa
+import time
 import numpy as np
 
 
 class Predict:
-    def __init__(self):
+    def __init__(self, lcd):
+        self.lcd = lcd
         self.sample_rate = 44100
         self.top_db_limit = 35
         self.hop = int(44100/100)
@@ -33,6 +35,11 @@ class Predict:
     def get_predictions(self,filename):
         # Load audio
         data,sample_rate = librosa.load(filename,sr=self.sample_rate)
+        if data.size == 0:
+            self.lcd.print("Data Error\nTry Again")
+            time.sleep(1)
+            return ["Error 100%"]
+            
         # Trim with a threshold of 35
         data,index = librosa.effects.trim(data,top_db=self.top_db_limit)
         # Locate note onset events in each frame

@@ -23,7 +23,15 @@ class Button:
         enable edge detection using add_event_detect() first. Pin should be 
         type IN."
         """
-        return GPIO.event_detected(self.button)
+        # Software debounce
+        if GPIO.event_detected(self.button):
+            time.sleep(0.005)
+            if GPIO.event_detected(self.button):
+                return True
+        return False
+    
+    def get_input(self):
+        GPIO.wait_for_edge(self.button, GPIO.RISING)
 
     def cleanup(self):
         GPIO.cleanup()
@@ -31,9 +39,8 @@ class Button:
 
 class Mic:
     def __init__(self, lcd):
-        self.mic_str = "AmazonBasics Portable USB Mic"
         self.audio = pyaudio.PyAudio()
-        self.device_index = self.mic_setup()
+        self.device_index = self.mic_setup(lcd)
         if self.device_index == -1:
             lcd.print(lcd.mic_err)
             self.audio.terminate()
@@ -46,11 +53,14 @@ class Mic:
         self.filenames = []
         self.counter = 0
 
-    def mic_setup(self):
+    def mic_setup(self, lcd):
+        if self.audio.get_device_info_by_index(1).get('name').startswith("AmazonBasics Portable USB Mic"):
+            return 1
         for i in range(self.audio.get_device_count()):
             test_str = self.audio.get_device_info_by_index(i).get('name')
-            if test_str.startswith(self.mic_str):
+            if test_str.startswith("AmazonBasics Portable USB Mic"):
                 return i
+        lcd.mic_err()
         return -1
 
     # Instead of returning the stream, initialize the object's variable to the stream
