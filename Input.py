@@ -38,11 +38,12 @@ class Button:
 
 class Mic:
     def __init__(self, lcd):
+        self.lcd = lcd
         self.audio = pyaudio.PyAudio()
         self.mic_name = "AmazonBasics Portable USB Mic"
         self.device_index = self.mic_setup(lcd)
         if self.device_index == -1:
-            lcd.print(lcd.mic_err)
+            self.lcd.print(lcd.mic_err)
             self.audio.terminate()
         self.sample_rate = 44100
         self.audio_format = pyaudio.paInt16
@@ -60,7 +61,7 @@ class Mic:
             test_str = self.audio.get_device_info_by_index(i).get('name')
             if test_str.startswith(self.mic_name):
                 return i
-        lcd.mic_err()
+        self.lcd.mic_err()
         return -1
 
     # Instead of returning the stream, initialize the object's variable to the stream
