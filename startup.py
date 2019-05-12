@@ -25,11 +25,13 @@ predict = Prediction.Predict(lcd)
 Event Loop
 """
 done = False
+count = 0
 while not done:
     # Prompt user to 'Press Button' to record
     lcd.print("Press Button To\nStart Recording\n")
     
     button.get_input()
+    
     # Record Audio
     mic.start_stream()
     led.SetGreen()
@@ -37,6 +39,7 @@ while not done:
     
     while not button.is_pressed():
         mic.read_data()
+        
     led.SetRed()
     mic.save_audio()
     lcd.print("Predicting...\n")
@@ -50,8 +53,9 @@ while not done:
         lcd.print(instruments[i])
         time.sleep(5)
     
-    done = True
-	    
+    if count == 3:
+        done = True
+    count = count + 1
 
 """
 Teardown
