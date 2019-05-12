@@ -43,7 +43,7 @@ class Mic:
         self.mic_name = "AmazonBasics Portable USB Mic"
         self.device_index = self.mic_setup(lcd)
         if self.device_index == -1:
-            self.lcd.print(lcd.mic_err)
+            self.lcd.mic_err()
             self.audio.terminate()
         self.sample_rate = 44100
         self.audio_format = pyaudio.paInt16
