@@ -49,12 +49,12 @@ while not done:
     instruments = predict.get_predictions(mic.filenames[mic.counter-1])
     if len(instruments) > 0:
         lcd.print("# of possible\ninstruments:" + str(len(instruments)))
-        time.sleep(0.5)
+        time.sleep(3)
         for i in range(0,len(instruments)):
             lcd.print(instruments[i])
-            time.sleep(0.5)
+            time.sleep(3)
     
-    if count == 5:
+    if count == 10:
         done = True
     count += 1
 
