@@ -15,19 +15,21 @@ class Button:
     def button_setup(self):
         # setup button for input
         GPIO.setup(self.button, GPIO.IN)
-        GPIO.add_event_detect(self.button, GPIO.RISING, bouncetime=self.bounce)
+        #GPIO.add_event_detect(self.button, GPIO.FALLING, bouncetime=self.bounce)
 
     def is_pressed(self):
         """ From the Adafruit_BBIO Library,
         "Returns True if an edge has occured on a given GPIO. You need to 
         enable edge detection using add_event_detect() first. Pin should be 
         type IN."
-        """
+        
         if GPIO.event_detected(self.button):
-            time.sleep(0.005)
-            if GPIO.event_detected(self.button):
+            time.sleep(2)
+            if not GPIO.event_detected(self.button):
                 return True
         return False
+        """
+        return GPIO.event_detected(self.button)
     
     def get_input(self):
         GPIO.wait_for_edge(self.button, GPIO.RISING)
@@ -41,9 +43,10 @@ class Mic:
         self.lcd = lcd
         self.audio = pyaudio.PyAudio()
         self.mic_name = "AmazonBasics Portable USB Mic"
-        self.device_index = self.mic_setup(lcd)
+        self.device_index = self.mic_setup()
         if self.device_index == -1:
             self.lcd.mic_err()
+            time.sleep(1)
             self.audio.terminate()
         self.sample_rate = 44100
         self.audio_format = pyaudio.paInt16
@@ -54,7 +57,7 @@ class Mic:
         self.filenames = []
         self.counter = 0
 
-    def mic_setup(self, lcd):
+    def mic_setup(self):
         if self.audio.get_device_info_by_index(1).get('name').startswith(self.mic_name):
             return 1
         for i in range(self.audio.get_device_count()):
@@ -66,9 +69,12 @@ class Mic:
 
     # Instead of returning the stream, initialize the object's variable to the stream
     def start_stream(self):
-        self.stream = self.audio.open(format = self.audio_format,rate = self.sample_rate, \
+        try:
+            self.stream = self.audio.open(format = self.audio_format,rate = self.sample_rate, \
                           channels = self.audio_channel,input_device_index = self.device_index, \
                           input = True, frames_per_buffer = self.chunk)
+        except:
+            self.lcd.print("Stream Error\nReconnect Mic\n")
 
     def read_data(self):
         self.frames.append(self.stream.read(self.chunk,exception_on_overflow=False))

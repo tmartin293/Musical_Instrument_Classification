@@ -36,9 +36,9 @@ class Predict:
         # Load audio
         data,sample_rate = librosa.load(filename,sr=self.sample_rate)
         if len(data) <= self.n_fft:
-            self.lcd.print("Data Error\nTry Again")
-            time.sleep(0.5)
-            return ["Error 100%"]
+            self.lcd.print("Data Error\nTry Again\n")
+            time.sleep(1)
+            return []
             
         # Trim with a threshold of 35
         data,index = librosa.effects.trim(data,top_db=self.top_db_limit,frame_length=self.n_fft,hop_length=self.hop)
