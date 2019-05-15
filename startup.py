@@ -30,10 +30,12 @@ while not done:
     lcd.print("Press Button To\nStart Recording\n")
     
     button.get_input()
-    time.sleep(0.1)
+    time.sleep(0.15)
     
-    # Record Audio
-    mic.start_stream()
+    # Record Audio if stream object created successfully
+    if not mic.start_stream():
+        break
+    
     lcd.print("Press Button To\nStop Recording\n")
     
     while not button.is_pressed():
@@ -52,7 +54,7 @@ while not done:
             lcd.print(instruments[i])
             time.sleep(0.5)
     
-    if count == 10:
+    if count == 5:
         done = True
     count += 1
 

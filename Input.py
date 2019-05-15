@@ -9,27 +9,14 @@ import time
 class Button:
     def __init__(self):
         self.button = 'P8_17'
-        self.bounce = 10
         self.button_setup()
 
     def button_setup(self):
         # setup button for input
         GPIO.setup(self.button, GPIO.IN)
-        #GPIO.add_event_detect(self.button, GPIO.FALLING, bouncetime=self.bounce)
 
     def is_pressed(self):
-        """ From the Adafruit_BBIO Library,
-        "Returns True if an edge has occured on a given GPIO. You need to 
-        enable edge detection using add_event_detect() first. Pin should be 
-        type IN."
-        
-        if GPIO.event_detected(self.button):
-            time.sleep(2)
-            if not GPIO.event_detected(self.button):
-                return True
-        return False
-        """
-        return GPIO.event_detected(self.button)
+        return GPIO.input(self.button)
     
     def get_input(self):
         GPIO.wait_for_edge(self.button, GPIO.RISING)
@@ -73,8 +60,12 @@ class Mic:
             self.stream = self.audio.open(format = self.audio_format,rate = self.sample_rate, \
                           channels = self.audio_channel,input_device_index = self.device_index, \
                           input = True, frames_per_buffer = self.chunk)
+                          
+            return True
         except:
             self.lcd.print("Stream Error\nReconnect Mic\n")
+            time.sleep(1)
+            return False
 
     def read_data(self):
         self.frames.append(self.stream.read(self.chunk,exception_on_overflow=False))

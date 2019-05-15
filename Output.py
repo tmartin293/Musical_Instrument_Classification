@@ -11,8 +11,8 @@ class CharLCD:
         def print(self,msg):
                 self.clear()
                 self.lcd.message(msg)
-
-        def mic_error(self):
+                  
+        def mic_err(self):
                 self.print("Failed to\nConnect to Mic\n")
 
         def rec_error(self):
