@@ -1,3 +1,5 @@
+
+# Creates shell script that will allow startup.py script to be executed automatically upon bootup
 import os
 
 def ConfigCondaEnvVars(filepath):

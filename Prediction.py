@@ -40,7 +40,7 @@ class Predict:
             time.sleep(1)
             return []
             
-        # Trim with a threshold of 35
+        # Trim silence with a threshold of 35 db
         data,index = librosa.effects.trim(data,top_db=self.top_db_limit,frame_length=self.n_fft,hop_length=self.hop)
         # Locate note onset events in each frame
         onset_frames = librosa.onset.onset_detect(y=data,sr=sample_rate,hop_length=self.hop)

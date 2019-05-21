@@ -1,24 +1,17 @@
 
+# Setup LCD and print loading message for user
 import Output
 lcd = Output.CharLCD()
 lcd.print("Loading...")
-
 
 import time
 import Input
 import Prediction
 
-"""
-Configuration
-"""
 # Setup Compenents
-
 button = Input.Button()
 mic = Input.Mic(lcd)
 predict = Prediction.Predict(lcd)
-
-# Display Setup
-# stretch goal: add a cool graphic loading message
 
 """
 Event Loop
@@ -54,6 +47,7 @@ while not done:
             lcd.print(instruments[i])
             time.sleep(3)
     
+    # Allow for 10 audio sample classifications before demo terminates
     if count == 10:
         done = True
     count += 1

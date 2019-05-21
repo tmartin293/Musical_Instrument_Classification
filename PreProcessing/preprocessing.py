@@ -1,12 +1,11 @@
 """
 preprocessing.py
-Microprocessing Lab
-Group 5
+CMPE 344
 """
 import os
 from pydub import AudioSegment
 
-# Conver all MP3 files to Wav in a directory
+# Convert all MP3 files to Wav in the same directory
 def MP3toWAV(rootdir):
     # traverse each directory
 	for root, dirs, files in os.walk(rootdir):
